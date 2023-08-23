@@ -48,8 +48,8 @@ class EngProjDataset(data.Dataset):
 
         dataroot = self.dataroot
 
-        # Enumerate all files in {dataroot}/person_image
-        for im_name in os.listdir(os.path.join(dataroot, 'person_image')):
+        # Enumerate all files in {dataroot}/images
+        for im_name in os.listdir(os.path.join(dataroot, 'images')):
             if im_name.endswith('.jpg'):
                 # Append to im_names, c_names, dataroot_names
                 im_names.append(im_name)
@@ -72,7 +72,7 @@ class EngProjDataset(data.Dataset):
         cloth = self.transform(cloth)  # [-1,1]
 
         # Person image
-        image = Image.open(os.path.join(dataroot, 'person_image', im_name))
+        image = Image.open(os.path.join(dataroot, 'images', im_name))
         image = image.resize((self.width, self.height))
         image = self.transform(image)  # [-1,1]
 
