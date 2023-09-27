@@ -48,12 +48,12 @@ class EngProjDataset(data.Dataset):
 
         dataroot = self.dataroot
 
-        # Enumerate all files in {dataroot}/images
-        for im_name in os.listdir(os.path.join(dataroot, 'images')):
-            if im_name.endswith('.jpg'):
+        # Enumerate all pair combinations in {dataroot}/person_images and {dataroot}/cloth_images
+        for im_person_name in [im_person_name for im_person_name in os.listdir(os.path.join(dataroot, 'person_images')) if im_person_name.endswith('.jpg')]:
+            for im_cloth_name in [im_cloth_name for im_cloth_name in os.listdir(os.path.join(dataroot, 'cloth_images')) if im_cloth_name.endswith('.jpg')]:
                 # Append to im_names, c_names, dataroot_names
-                im_names.append(im_name)
-                c_names.append('input_cloth.jpg')
+                im_names.append(im_person_name)
+                c_names.append(im_cloth_name)
                 dataroot_names.append(dataroot)
 
         self.im_names = im_names
@@ -67,12 +67,12 @@ class EngProjDataset(data.Dataset):
         category = 'upper_body'
 
         # Cloth image
-        cloth = Image.open(os.path.join(dataroot, c_name))
+        cloth = Image.open(os.path.join(dataroot, 'cloth_images', c_name))
         cloth = cloth.resize((self.width, self.height))
         cloth = self.transform(cloth)  # [-1,1]
 
         # Person image
-        image = Image.open(os.path.join(dataroot, 'images', im_name))
+        image = Image.open(os.path.join(dataroot, 'person_images', im_name))
         image = image.resize((self.width, self.height))
         image = self.transform(image)  # [-1,1]
 
@@ -267,7 +267,7 @@ class EngProjDataset(data.Dataset):
         parse_mask_total = parse_array * parse_mask_total
         parse_mask_total = torch.from_numpy(parse_mask_total)
 
-        outputlist = ["image", "inpaint_mask", "pose_map", "category", "cloth", "im_mask", "im_name"]
+        outputlist = ["image", "inpaint_mask", "pose_map", "category", "cloth", "im_mask", "im_name", "c_name"]
         result = {}
         for k in outputlist:
             result[k] = vars()[k]
