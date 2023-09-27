@@ -13,7 +13,7 @@ import PIL
 import torch
 from diffusers.configuration_utils import FrozenDict
 from diffusers.models import AutoencoderKL, UNet2DConditionModel
-from diffusers.pipeline_utils import DiffusionPipeline
+from diffusers.pipelines.pipeline_utils import DiffusionPipeline
 from diffusers.pipelines.stable_diffusion import StableDiffusionPipelineOutput
 from diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_inpaint import prepare_mask_and_masked_image
 from diffusers.schedulers import DDIMScheduler, LMSDiscreteScheduler, PNDMScheduler
